@@ -16,17 +16,19 @@
         <div id="google-map"></div>
 
         <div class="container">
-            
+
             <div id="table-data">
-                <table id="table-csv" data-cache="false" data-pagination="true" data-search="true">
+                <table id="table-csv" 
+                       data-detail-view="true" 
+                       data-detail-formatter="APP.loadedModules.dataController.detailFormatter" 
+                       data-cache="false" 
+                       data-pagination="true" 
+                       data-search="true">
                     <thead>
                         <tr>
                             <th data-field="company" data-sortable="true">Company</th>
                             <th data-field="country" data-sortable="true">Country</th>
                             <th data-field="city" data-sortable="true">City</th>
-                            <th data-field="street" data-sortable="true">Street</th>
-                            <th data-field="latitude" data-sortable="true">Latitude</th>
-                            <th data-field="longitude" data-sortable="true">Longitude</th>
                         </tr>
                     </thead>
                 </table>

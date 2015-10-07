@@ -15,6 +15,8 @@ APP.dataController = function() {
     /**
      * Load data from csv file to bootstrap table.
      * 
+     * @param {mixed} resolve resolve
+     * @param {mixed} reject reject
      * @returns {void}
      */
     self.loadData = new RSVP.Promise(function(resolve, reject) {
@@ -43,6 +45,24 @@ APP.dataController = function() {
         });
     });
 
+    /**
+     * Detail formatter.
+     * 
+     * @param {int} index index
+     * @param {object} row row
+     * @returns {string}
+     */
+    self.detailFormatter = function(index, row) {
+
+        var html = [];
+
+        $.each(row, function(key, value) {
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+        });
+        
+        return html.join('');
+    };
+    
     /**
      * Public methods.
      */
