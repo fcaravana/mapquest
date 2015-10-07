@@ -13,7 +13,8 @@ APP.dataController = function() {
     self.jsonData = {};
 
     /**
-     * Load data from csv file to bootsatrp table.
+     * Load data from csv file to bootstrap table.
+     * 
      * @returns {void}
      */
     self.loadData = new RSVP.Promise(function(resolve, reject) {
