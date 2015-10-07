@@ -6,10 +6,37 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <link rel="stylesheet" href="./assets/js/bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./assets/js/bower_components/bootstrap-table/dist/bootstrap-table.min.css">
         <link rel="stylesheet" href="./assets/css/style.css">
 
     </head>
     <body>
+
+        <div id="google-map"></div>
+
+        <div class="container">
+            
+            <div id="table-data">
+                <table id="table-csv" data-cache="false" data-pagination="true" data-search="true">
+                    <thead>
+                        <tr>
+                            <th data-field="company" data-sortable="true">Company</th>
+                            <th data-field="address" data-sortable="true">Address</th>
+                            <th data-field="phone" data-sortable="true">Phone</th>
+                            <th data-field="lat" data-sortable="true">Lat</th>
+                            <th data-field="long" data-sortable="true">Long</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+        <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        <script src="https://www.google.com/recaptcha/api.js?hl={LANG_LOCALE}"></script>
+        <script src="./assets/js/bower_components/rsvp/rsvp.min.js"></script>
+        <script src="./assets/js/bower_components/basket.js/dist/basket.js"></script>
+        <script src="./assets/js/start.js"></script>
 
     </body>
 </html>
