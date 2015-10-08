@@ -5,26 +5,49 @@ var APP = {
     base: function() {
         var _location = window.location.pathname;
         var _directory = _location.substring(0, _location.lastIndexOf('/'));
-        
+
         return _directory;
     },
     skipCache: true,
     serial: '20151007230000',
-    loadedModules: {}, 
+    detailFormatter: null,
+    operateFormatter: function() {
+        return [
+            '<a class="remove ml10" href="javascript:void(0)" title="Remove">',
+            '<i class="glyphicon glyphicon-remove"></i>',
+            '</a>'
+        ].join('');
+    },
+    operateEvents: {
+        'click .remove': function(e, value, row, index) {
+            $('#table-csv').bootstrapTable('removeByUniqueId', row.id);
+            var markers = $('#table-csv').bootstrapTable('getData');
+            APP.loadedModules.mapController.loadMap(markers);
+        }
+    },
+    loadedModules: {},
     start: function() {
 
         APP.loadedModules.helpers = new APP.helpers();
         APP.loadedModules.dataController = new APP.dataController();
 
+        // after loading json data
         APP.loadedModules.dataController.loadData.then(function() {
+
+            // load google map
             APP.loadedModules.mapController = new APP.mapController();
-            APP.loadedModules.mapController.init();
+            APP.loadedModules.mapController.start();
+            
+            // set shortcuts
+            APP.detailFormatter = APP.loadedModules.dataController.detailFormatter;
+            
+            APP.loadedModules.dataController.clickRow();            
+
         }, function(error) {
             alert(error);
         });
 
-    }
-
+    },
 };
 
 /**

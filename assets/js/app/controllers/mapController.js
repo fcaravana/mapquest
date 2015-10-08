@@ -1,84 +1,170 @@
 APP.mapController = function() {
-    
+
+    /**
+     * Private properties.
+     */
+    var _zoom = 10;
+    var _markers = null;
+    var _latitude = 39.557191;
+    var _longitude = -7.8536599;
+    var _activeId = 0;
+
+    /**
+     * Public properties
+     */
     var self = {};
 
     /**
-     * Init function.
+     * Start map.
      */
-    self.init = function() {
+    self.start = function() {
 
-        _googleMap();
+        self.loadMap();
+        _registerEvents();
 
     };
 
     /**
-     * Google map function.
-     */
-    var _googleMap = function()
-    {
-        var element = $("#google-map");
-        var mapZoomLevel = 8;
-        
-        if ($(element).length !== 0)
-        {
-            var mapOptions = {
-                zoom: mapZoomLevel,
-                center: new google.maps.LatLng(37.4096935, -119.8830625),
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                zoomControl: true,
-                mapTypeControl: false,
-                scrollwheel: false,
-                zoomControlOptions: {
-                    style: google.maps.ZoomControlStyle.SMALL,
-                    position: google.maps.ControlPosition.TOP_LEFT
-                }
-                /* styles: _mapStyle */
-            };
-
-            var map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
-            
-            markers = APP.loadedModules.dataController.jsonData;
- 
-            $.each(markers, function(index, fields) {
-                lat = fields.latitude;
-                long = fields.longitude;
-
-                if (lat && long) {
-                    _addMarker(google, map, lat, long);
-                }
-            });
-        }
-    };
-
-    /**
-     * Add marker to map function.
+     * Load map.
      * 
-     * @param {object} google google maps
-     * @param {object} map map
-     * @param {number} lat latitude
-     * @param {number} long longitude
+     * @param {number} active active
      */
-    var _addMarker = function(google, map, lat, long) {
+    self.loadMap = function(activeId) {
 
-        var point = new google.maps.LatLng(lat, long);
-        
-        var image = new google.maps.MarkerImage(
-                'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACDElEQVQ4Ea1VPUsjURSdlw8nxTaLKJbiR7JgI7qFjRbbpUgmgvkJVoIurHFZdNFKVgXRrfwPUZPJFGks0qu7hSAyi9oJYqEkQTIT5e25k0x4vMmoAR883r3nnHvf1503TGnT4vG4Gg6raVDT6KPoH5uye8aUv5yzXL1e2y8Wi1YTbw2sZTUNTdNmELAFt1/mJP+acyVjGPkDEW8lTKfTwVrN3maMzYuCN9g7qhpezGazz6QNuQGWZe8i2ZzrdzB+xUIC0C9QjLPCRCKVwtnkOkgiSzljXNN13WDYapdl1c+hGJRVoo/Vb3DOv4uYZP/r6+sdCQ4Nxeg2ZyXS40L8pVKpBpB4ykM2gO5q9fEsgFlTPgIPbBj6ChKue4gmQLlCOLuxNoIjGTNNkxOm67nlZDJFZ/9D1uAcxxjICogPIlko5FvlJOKijbhV+GsiBrtC1/1qsBTkuNherR1OdXiDPiySmP1E9Mkulx8mSqXSE9nglzD8IltqN7gU5Y8Ekjsu92g06uwkmZzOgNsgkdyQ65TKIC8Tfn4ioS0qCt/04ylXQFVDhxBc+olc/Pb27hsC6NHwayjsnsZtvuenF6TpTPPiIhb7pMKc9Jv+JRw3vl4o6HukobJxGp6gnyB+u34H404k0kU16TRPDb7bA+vOQGPjFxCh5z+OW/2MPtDg2RXGY3xiRdu28+1+Af8B5Veuq3n4GT4AAAAASUVORK5CYII=',
-                new google.maps.Size(300, 300)
-                );
+        _activeId = (activeId ? activeId : 0);
+                
+        _markers = $('#table-csv').bootstrapTable('getData');
 
-        new google.maps.Marker({
-            draggable: false,
-            raiseOnDrag: false,
-            /* icon: image, */
-            map: map,
-            position: point
+        _loadEmptyMap(_markers);
+        _clearMap();
+        _addMarkers(_markers);
+
+    };
+    
+    /**
+     * Maps listeners.
+     */
+    var _registerEvents = function() {
+
+        google.maps.event.addDomListener(window, 'resize', self.loadMap);
+        google.maps.event.addDomListener(window, 'load', self.loadMap);
+
+    };
+
+    /**
+     * Load empty map.
+     * 
+     * @param {object} markers markers
+     */
+    var _loadEmptyMap = function(markers) {
+
+        if (markers.length !== 0) {
+            _latitude = markers[0].latitude;
+            _longitude = markers[0].longitude;
+        }
+
+        _map = new GMaps({
+            div: "#google-map",
+            lat: _latitude,
+            lng: _longitude,
+            zoom: _zoom,
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.SMALL,
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+            scrollwheel: false
         });
 
     };
 
     /**
-     * Module public methods.
+     * Add markers.
+     * 
+     * @param {object} markers markers
+     */
+    var _addMarkers = function(markers) {
+
+        var id, title, lat, long;
+
+        $.each(markers, function(key, marker) {
+
+            id = marker.id;
+            title = marker.company;
+            lat = marker.latitude;
+            long = marker.longitude;
+
+            _addMarker(id, title, lat, long);
+            _addOverlay(title, lat, long);
+
+            _map.fitZoom();
+
+        });
+
+    };
+
+    /**
+     * Add marker.
+     * 
+     * @param {number} id id
+     * @param {string} title title
+     * @param {number} lat lat
+     * @param {number} long long
+     */
+    var _addMarker = function(id, title, lat, long) {
+        
+        _map.addMarker({
+            id: id,
+            title: title,
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 10,
+                fillColor: (id === _activeId ? '#346ff7' : '#05f24c'),
+                fillOpacity: 1,
+                strokeColor: (id === _activeId ? '#05f24c' : '#346ff7'),
+                strokeOpacity: 1
+            },
+            lat: lat,
+            lng: long,
+            click: function(event) {
+                alert("marker click: " + event.id);
+            }
+        });
+
+    };
+
+    /**
+     * Add overlay.
+     * 
+     * @param {string} title title
+     * @param {number} lat lat
+     * @param {number} long long
+     */
+    var _addOverlay = function(title, lat, long) {
+
+        _map.drawOverlay({
+            lat: lat,
+            lng: long,
+            verticalAlign: 'bottom',
+            horizontalAlign: 'right',
+            verticalOffset: -7,
+            horizontalOffset: 25,
+            content: '<span class="label label-default arrow_box">' + title + '</span>'
+        });
+
+    };
+
+    /**
+     * Clear map, removes markers and overlays.
+     */
+    var _clearMap = function() {
+
+        _map.removeMarkers();
+        _map.removeOverlays();
+
+    };
+
+    /**
+     * Public methods.
      */
     return self;
 };

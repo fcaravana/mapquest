@@ -17,22 +17,34 @@
 
         <div class="container">
 
-            <div id="table-data">
-                <table id="table-csv" 
-                       data-detail-view="true" 
-                       data-detail-formatter="APP.loadedModules.dataController.detailFormatter" 
-                       data-cache="false" 
-                       data-pagination="true" 
-                       data-search="true">
-                    <thead>
-                        <tr>
-                            <th data-field="company" data-sortable="true">Company</th>
-                            <th data-field="country" data-sortable="true">Country</th>
-                            <th data-field="city" data-sortable="true">City</th>
-                        </tr>
-                    </thead>
-                </table>
+            <div class="table-info">
+                <div id="table-data">
+                    <table id="table-csv"
+                           data-cache="false"
+                           data-detail-view="true"
+                           data-detail-formatter="APP.detailFormatter"
+                           data-mobile-responsive="false"
+                           data-show-columns="false"
+                           data-show-toggle="false"
+                           data-unique-id="id"
+                           data-pagination="true"
+                           data-page-size="4"
+                           data-search="true">
+                        <thead>
+                            <tr>
+                                <th data-field="company" 
+                                    data-sortable="true">Company</th>
+                                <th data-field="website" 
+                                    data-sortable="true">Website</th>
+                                <th data-field="operate" 
+                                    data-formatter="APP.operateFormatter" 
+                                    data-events="APP.operateEvents">Remove</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
+
         </div>
 
         <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
@@ -40,6 +52,6 @@
         <script src="./assets/js/bower_components/rsvp/rsvp.min.js"></script>
         <script src="./assets/js/bower_components/basket.js/dist/basket.js"></script>
         <script src="./assets/js/start.js"></script>
-
+        
     </body>
 </html>
