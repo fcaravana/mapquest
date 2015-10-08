@@ -1,4 +1,4 @@
-APP.mapController = function() {
+APP.mapController = function () {
 
     /**
      * Private properties.
@@ -18,7 +18,7 @@ APP.mapController = function() {
     /**
      * Start map.
      */
-    self.start = function() {
+    self.start = function () {
 
         self.loadMap();
         _registerEvents();
@@ -30,13 +30,13 @@ APP.mapController = function() {
      * 
      * @param {number} activeId active id
      */
-    self.loadMap = function(marker) {
+    self.loadMap = function (marker) {
 
         if (marker) {
             _activeId = (marker.id ? marker.id : 0);
             _activeMarker = marker;
         }
-        
+
         _markers = $('#table-csv').bootstrapTable('getData');
 
         _loadEmptyMap(_markers);
@@ -44,11 +44,11 @@ APP.mapController = function() {
         _addMarkers(_markers);
 
     };
-    
+
     /**
      * Maps listeners.
      */
-    var _registerEvents = function() {
+    var _registerEvents = function () {
 
         google.maps.event.addDomListener(window, 'resize', self.loadMap);
         google.maps.event.addDomListener(window, 'load', self.loadMap);
@@ -60,7 +60,7 @@ APP.mapController = function() {
      * 
      * @param {object} markers markers
      */
-    var _loadEmptyMap = function(markers) {
+    var _loadEmptyMap = function (markers) {
 
         if (markers.length !== 0) {
             _latitude = markers[0].latitude;
@@ -86,11 +86,11 @@ APP.mapController = function() {
      * 
      * @param {object} markers markers
      */
-    var _addMarkers = function(markers) {
+    var _addMarkers = function (markers) {
 
         var id, title, lat, long;
 
-        $.each(markers, function(key, marker) {
+        $.each(markers, function (key, marker) {
 
             id = marker.id;
             title = marker.company;
@@ -114,8 +114,8 @@ APP.mapController = function() {
      * @param {number} lat lat
      * @param {number} long long
      */
-    var _addMarker = function(id, title, lat, long) {
-        
+    var _addMarker = function (id, title, lat, long) {
+
         _map.addMarker({
             id: id,
             title: title,
@@ -129,7 +129,7 @@ APP.mapController = function() {
             },
             lat: lat,
             lng: long,
-            click: function(event) {
+            click: function (event) {
                 alert("marker click: " + event.id);
             }
         });
@@ -143,7 +143,7 @@ APP.mapController = function() {
      * @param {number} lat lat
      * @param {number} long long
      */
-    var _addOverlay = function(title, lat, long) {
+    var _addOverlay = function (title, lat, long) {
 
         _map.drawOverlay({
             lat: lat,
@@ -160,7 +160,7 @@ APP.mapController = function() {
     /**
      * Clear map, removes markers and overlays.
      */
-    var _clearMap = function() {
+    var _clearMap = function () {
 
         _map.removeMarkers();
         _map.removeOverlays();

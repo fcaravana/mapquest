@@ -1,4 +1,4 @@
-APP.dataController = function() {
+APP.dataController = function () {
 
     /**
      * Private properties.
@@ -18,12 +18,12 @@ APP.dataController = function() {
      * @param {function} resolve resolve
      * @param {function} reject reject
      */
-    self.loadData = new RSVP.Promise(function(resolve, reject) {
-        
+    self.loadData = new RSVP.Promise(function (resolve, reject) {
+
         $.ajax({
             url: _currentDir + '/assets/data/data.csv',
             dataType: 'text',
-            success: function(result) {
+            success: function (result) {
 
                 var jsonData = csvjson.csv2json(result, {delim: ";"});
                 self.jsonData = jsonData.rows;
@@ -31,12 +31,12 @@ APP.dataController = function() {
                 $('#table-csv').bootstrapTable({
                     data: self.jsonData
                 });
-                
+
                 $('.table-info').show();
 
                 resolve();
             },
-            error: function(jqXHR, error, errorThrown) {
+            error: function (jqXHR, error, errorThrown) {
                 if (jqXHR.status && jqXHR.status === 400) {
                     alert(jqXHR.responseText);
                 } else {
@@ -44,9 +44,9 @@ APP.dataController = function() {
                 }
             }
         });
-        
+
     });
-    
+
     /**
      * Detail formatter.
      * 
@@ -54,30 +54,29 @@ APP.dataController = function() {
      * @param {object} row row
      * @return {mixed} html
      */
-    self.detailFormatter = function(index, row) {
-        
+    self.detailFormatter = function (index, row) {
+
         var html = [];
-        
-        $.each(row, function(key, value) {
+
+        $.each(row, function (key, value) {
             html.push('<p><b>' + key + ':</b> ' + value + '</p>');
         });
-        
+
         return html.join('');
-        
+
     };
-    
+
     /**
      * Click row.
      */
-    self.clickRow = function() {
+    self.clickRow = function () {
 
-        $("#table-csv").on("click-row.bs.table", function(event, row, element) {
-            
+        $("#table-csv").on("click-row.bs.table", function (event, row, element) {
+
             APP.loadedModules.mapController.loadMap(row);
-            
+
         });
-        
-        
+
     };
 
     /**
