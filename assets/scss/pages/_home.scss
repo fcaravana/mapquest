@@ -9,6 +9,7 @@
 .table-info {
     display: none;
     position: absolute;
+    text-align: center;
     width: 100%;
     bottom: 0px;
     left: 0px;
@@ -19,8 +20,8 @@
 #table-data {
     display: inline-block;
     border-radius: 20px;
-    padding: 20px;
-    width: 100%;
+    padding: 40px;
+    width: 80%;
     min-height: 200px;
     background-color: gray;
     @include transparent(255, 255, 255, 80);

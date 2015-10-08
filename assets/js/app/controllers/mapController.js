@@ -27,7 +27,7 @@ APP.mapController = function() {
     /**
      * Load map.
      * 
-     * @param {number} active active
+     * @param {number} activeId active id
      */
     self.loadMap = function(activeId) {
 
