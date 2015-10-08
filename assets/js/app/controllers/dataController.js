@@ -73,7 +73,7 @@ APP.dataController = function() {
 
         $("#table-csv").on("click-row.bs.table", function(event, row, element) {
             
-            APP.loadedModules.mapController.loadMap(row.id);
+            APP.loadedModules.mapController.loadMap(row);
             
         });
         

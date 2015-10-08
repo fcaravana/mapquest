@@ -7,7 +7,8 @@ APP.mapController = function() {
     var _markers = null;
     var _latitude = 39.557191;
     var _longitude = -7.8536599;
-    var _activeId = 0;
+    var _activeId = null;
+    var _activeMarker = null;
 
     /**
      * Public properties
@@ -29,10 +30,13 @@ APP.mapController = function() {
      * 
      * @param {number} activeId active id
      */
-    self.loadMap = function(activeId) {
+    self.loadMap = function(marker) {
 
-        _activeId = (activeId ? activeId : 0);
-                
+        if (marker) {
+            _activeId = (marker.id ? marker.id : 0);
+            _activeMarker = marker;
+        }
+        
         _markers = $('#table-csv').bootstrapTable('getData');
 
         _loadEmptyMap(_markers);
