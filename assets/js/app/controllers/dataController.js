@@ -4,6 +4,7 @@ APP.dataController = function() {
      * Private properties.
      */
     var _currentDir = APP.loadedModules.helpers.currentDir();
+    var _capitalizeFirstLetter = APP.loadedModules.helpers.capitalizeFirstLetter;
 
     /**
      * Public properties.
@@ -97,7 +98,7 @@ APP.dataController = function() {
                 }
             }
 
-            html.push('<p><b>' + key + ':</b> ' + richValue + '</p>');
+            html.push('<p><b>' + _capitalizeFirstLetter(key) + ':</b> ' + richValue + '</p>');
         });
 
         return html.join('');
@@ -124,10 +125,10 @@ APP.dataController = function() {
                     image = '<img src="' + value + '" class="image-info" />';
                 } else {
                     text = '<a href="' + value + '" target="_blank">' + value + '</a>';
-                    html.push('<p><b>' + key + ':</b> ' + text + '</p>');
+                    html.push('<p><b>' + _capitalizeFirstLetter(key) + ':</b> ' + text + '</p>');
                 }
             } else {
-                html.push('<p><b>' + key + ':</b> ' + text + '</p>');
+                html.push('<p><b>' + _capitalizeFirstLetter(key) + ':</b> ' + text + '</p>');
             }
         });
         html.push('</div><div class="col-md-6 col-xs-6">' + image + '</div></div>');

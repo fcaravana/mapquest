@@ -1,4 +1,4 @@
-APP.helpers = function() {
+APP.helpers = function () {
 
     /**
      * Private properties.
@@ -13,14 +13,25 @@ APP.helpers = function() {
 
     /**
      * Load data from csv file to bootsatrp table.
-     * @returns {void}
+     * 
+     * @returns {string} current directory
      */
-    self.currentDir = function() {
+    self.currentDir = function () {
 
         _directory = _location.substring(0, _location.lastIndexOf('/'));
 
         return _directory;
 
+    };
+
+    /**
+     * Capitalize first letter.
+     * 
+     * @param {string} string
+     * @returns {string} string
+     */
+    self.capitalizeFirstLetter = function (string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
     /**
