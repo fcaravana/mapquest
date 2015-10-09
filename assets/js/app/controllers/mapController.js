@@ -3,7 +3,7 @@ APP.mapController = function () {
     /**
      * Private properties.
      */
-    var _zoom = 10;
+    var _zoom = 5;
     var _markers = null;
     var _latitude = 39.557191;
     var _longitude = -7.8536599;
@@ -16,7 +16,7 @@ APP.mapController = function () {
     var self = {};
 
     /**
-     * Start map.
+     * Start.
      */
     self.start = function () {
 
@@ -28,7 +28,7 @@ APP.mapController = function () {
     /**
      * Load map.
      * 
-     * @param {number} activeId active id
+     * @param {object} marker selected marker
      */
     self.loadMap = function (marker) {
 
@@ -43,6 +43,18 @@ APP.mapController = function () {
         _clearMap();
         _addMarkers(_markers);
 
+    };
+
+    /**
+     * Set map center.
+     * 
+     * @param {number} latitude latitude
+     * @param {number} longitude longitude
+     */
+    self.setCenter = function (latitude, longitude) {
+
+        _map.setCenter(latitude, longitude);
+        
     };
 
     /**
@@ -87,7 +99,7 @@ APP.mapController = function () {
      * @param {object} markers markers
      */
     var _addMarkers = function (markers) {
-
+        
         var id, title, lat, long;
 
         $.each(markers, function (key, marker) {
@@ -100,9 +112,11 @@ APP.mapController = function () {
             _addMarker(id, title, lat, long);
             _addOverlay(title, lat, long);
 
-            _map.fitZoom();
-
         });
+        
+        if (markers.length !== 0) {
+            _map.fitZoom();
+        }
 
     };
 
@@ -130,7 +144,17 @@ APP.mapController = function () {
             lat: lat,
             lng: long,
             click: function (event) {
-                alert("marker click: " + event.id);
+                
+                var row = $(APP.table).bootstrapTable('getRowByUniqueId', event.id);
+                var html = APP.loadedModules.dataController.markerInformation(row);
+                
+                APP.loadedModules.mapController.loadMap(row);
+                
+                $('.modal-title').html(row.company);
+                $('.modal-body').html(html);
+                $('#markerModal').modal({ show: true});
+                
+                _map.setCenter(row.latitude, row.longitude);
             }
         });
 
