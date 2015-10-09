@@ -24,6 +24,7 @@
     "bootstrap": "~3.3.5",
     "bootstrap-table": "~1.9.0",
     "csvjson.js": "git://github.com/aaronsnoswell/csvjson.js.git",
-    "gmaps": "~0.4.21"
+    "gmaps": "~0.4.21",
+    "magnific-popup": "~1.0.0"
   }
 }
