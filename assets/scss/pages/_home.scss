@@ -24,7 +24,7 @@
 }
 
 #table-data {
-    display: inline-block;
+    display: block;
     text-align: left;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -90,6 +90,11 @@
 
 #table-data > .title {
     position: absolute;
+}
+
+.glyphicon-eye-close, .glyphicon-eye-open {
+    cursor: pointer;
+    margin-right: 10px;
 }
 
 @media (max-width: 768px) {

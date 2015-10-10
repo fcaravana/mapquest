@@ -37,6 +37,17 @@ APP.dataController = function() {
                 image: { verticalFit: true }
             });
         });
+        
+        $(".glyphicon-eye-close, glyphicon-eye-open").on("click", function() {
+
+            if ($(this).attr("class").indexOf('close') > -1) {
+                $(this).removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open");
+            } else {
+                $(this).removeClass("glyphicon-eye-open").addClass("glyphicon-eye-close");
+            }
+            
+            $("#table-wrap").toggle();
+        });
 
     };
 
@@ -144,6 +155,9 @@ APP.dataController = function() {
 
         $("#table-csv").on("click-row.bs.table", function(event, row, element) {
 
+            $("#table-wrap").hide();
+            $(".glyphicon-eye-close").removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open");
+            
             APP.loadedModules.mapController.loadMap(row);
             
             var html = APP.loadedModules.dataController.markerInformation(row);
