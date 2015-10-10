@@ -10,21 +10,26 @@
     display: none;
     position: absolute;
     text-align: center;
+    line-height: 0px;
     margin: 0 5%;
     width: 90%;
     bottom: 0px;
     left: 0px;
-    padding: 20px;
+    padding: 0 10px 0 10px;
     background-color: transparent;
+}
+
+#table-wrap {
+    min-height: 150px;
 }
 
 #table-data {
     display: inline-block;
     text-align: left;
-    border-radius: 20px;
-    padding: 40px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 0px 20px 0px 20px;
     width: 80%;
-    min-height: 200px;
     background-color: gray;
     @include transparent(255, 255, 255, 80);
 }
@@ -68,7 +73,7 @@
 
 .image-info {
     width: 100%;
-    height: 100%;
+    height: 180px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
