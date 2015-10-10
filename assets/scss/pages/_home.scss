@@ -25,6 +25,7 @@
 
 #table-data {
     display: block;
+    margin: auto;
     text-align: left;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -100,12 +101,12 @@
 @media (max-width: 768px) {
 
     .table-info {
-        margin: 0 2%;
-        width: 96%;
+        margin: 0 1%;
+        width: 98%;
     }
 
     #table-data {
-        width: 96%;
+        width: 98%;
     }
 
     #table-data > .title {

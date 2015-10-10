@@ -11,7 +11,7 @@ html, body { font-family: sans-serif; font-size: 14px; }
 
 #table-wrap { min-height: 150px; }
 
-#table-data { display: block; text-align: left; border-top-left-radius: 10px; border-top-right-radius: 10px; padding: 0px 20px 0px 20px; width: 80%; background-color: gray; background-color: rgba(255, 255, 255, 0.8); }
+#table-data { display: block; margin: auto; text-align: left; border-top-left-radius: 10px; border-top-right-radius: 10px; padding: 0px 20px 0px 20px; width: 80%; background-color: gray; background-color: rgba(255, 255, 255, 0.8); }
 
 .label { font-size: 14px; font-weight: normal; background-color: #b3b3b3; }
 
@@ -33,8 +33,8 @@ html, body { font-family: sans-serif; font-size: 14px; }
 
 .glyphicon-eye-close, .glyphicon-eye-open { cursor: pointer; margin-right: 10px; }
 
-@media (max-width: 768px) { .table-info { margin: 0 2%; width: 96%; }
-  #table-data { width: 96%; }
+@media (max-width: 768px) { .table-info { margin: 0 1%; width: 98%; }
+  #table-data { width: 98%; }
   #table-data > .title { position: relative; } }
 
 /*# sourceMappingURL=style.css.map */
