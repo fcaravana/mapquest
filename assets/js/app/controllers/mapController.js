@@ -37,7 +37,7 @@ APP.mapController = function () {
             _activeMarker = marker;
         }
 
-        _markers = $('#table-csv').bootstrapTable('getData');
+        _markers = $(APP.table).bootstrapTable('getData');
 
         _loadEmptyMap(_markers);
         _clearMap();

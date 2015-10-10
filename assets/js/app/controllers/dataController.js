@@ -27,7 +27,7 @@ APP.dataController = function() {
      */
     var _registerEvents = function() {
 
-        $("#table-csv").on("expand-row.bs.table", function(event, index, row, detail) {
+        $(APP.table).on("expand-row.bs.table", function(event, index, row, detail) {
             $('.image-link').magnificPopup({
                 type: 'image',
                 closeOnContentClick: true,
@@ -67,7 +67,7 @@ APP.dataController = function() {
                 var jsonData = csvjson.csv2json(csvFile, {delim: ";"});
                 self.jsonData = jsonData.rows;
 
-                $('#table-csv').bootstrapTable({
+                $(APP.table).bootstrapTable({
                     data: self.jsonData
                 });
 
@@ -153,7 +153,7 @@ APP.dataController = function() {
      */
     self.clickRow = function() {
 
-        $("#table-csv").on("click-row.bs.table", function(event, row, element) {
+        $(APP.table).on("click-row.bs.table", function(event, row, element) {
 
             $("#table-wrap").hide();
             $(".glyphicon-eye-close").removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open");
