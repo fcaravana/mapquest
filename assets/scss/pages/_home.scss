@@ -84,14 +84,15 @@
     font-size: 20px;
 }
 
-.main-title {
-    position: absolute;
-    float: left;
+.row .title {
+    font-family: 'Lobster', cursive;
+    color: #285f8e;
 }
 
 .glyphicon-eye-close, .glyphicon-eye-open {
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 5px;
+    color: #285f8e;
 }
 
 #table-data > .row {
@@ -111,6 +112,15 @@
 
     #table-data > .title {
         position: relative;
+    }
+
+    .row .title {
+        font-size: 20px;
+    }
+
+    .glyphicon-eye-close, .glyphicon-eye-open {
+        font-size: 20px;
+        margin-right: 0px;
     }
 
 }
