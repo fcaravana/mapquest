@@ -133,7 +133,7 @@ APP.dataController = function() {
             text = value.toString();
             if (text.indexOf('http') > -1) {
                 if (text.indexOf('jpg') > -1 || text.indexOf('jpeg') > -1) {
-                    image = '<img src="' + value + '" class="image-info" />';
+                    image = '<div style="background-image: url(\'' + value + '\')" class="image-info" /></div>';
                 } else {
                     text = '<a href="' + value + '" target="_blank">' + value + '</a>';
                     html.push('<p><b>' + _capitalizeFirstLetter(key) + ':</b> ' + text + '</p>');
