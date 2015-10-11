@@ -38,12 +38,12 @@ APP.dataController = function() {
             });
         });
         
-        $(".glyphicon-eye-close, glyphicon-eye-open").on("click", function() {
+        $(document).on("click", ".row", function() {
 
-            if ($(this).attr("class").indexOf('close') > -1) {
-                $(this).removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open");
+            if ($(".row .glyphicon").attr("class").indexOf('close') > -1) {
+                $(".glyphicon-eye-close").removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open");
             } else {
-                $(this).removeClass("glyphicon-eye-open").addClass("glyphicon-eye-close");
+                $(".glyphicon-eye-open").removeClass("glyphicon-eye-open").addClass("glyphicon-eye-close");
             }
             
             $("#table-wrap").toggle();

@@ -29,9 +29,9 @@ html, body { font-family: sans-serif; font-size: 14px; }
 
 .main-title { position: absolute; float: left; }
 
-#table-data > .title { position: absolute; }
-
 .glyphicon-eye-close, .glyphicon-eye-open { cursor: pointer; margin-right: 10px; }
+
+#table-data > .row { cursor: pointer; }
 
 @media (max-width: 768px) { .table-info { margin: 0 1%; width: 98%; }
   #table-data { width: 98%; }
