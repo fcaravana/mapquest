@@ -12,7 +12,7 @@ APP.helpers = function () {
     var self = {};
 
     /**
-     * Load data from csv file to bootsatrp table.
+     * Get current directory.
      * 
      * @returns {string} current directory
      */
@@ -31,7 +31,9 @@ APP.helpers = function () {
      * @returns {string} string
      */
     self.capitalizeFirstLetter = function (string) {
+        
         return string.charAt(0).toUpperCase() + string.slice(1);
+        
     };
 
     /**
