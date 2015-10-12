@@ -119,6 +119,7 @@ APP.dataController = function() {
 
         $("#table-csv").on("click-row.bs.table", function(event, row, element) {
             
+            $("#table-wrap").hide();
             APP.loadedModules.mapController.loadMap(row);
 
             self.markerInformation(row).then(function(html) {
