@@ -1,0 +1,13 @@
+{% for key, value in row %}
+    {% if String(value).indexOf('http') > -1 %}
+        {% if key == 'photo' %}
+            <p><b>{{ key }}:</b> <a href="{{ value }}" class="image-link" alt="">
+                <span class="glyphicon glyphicon-picture"></span></a>
+            </p>
+        {% else %}
+            <p><b>{{ key }}:</b> <a href="{{ value }}" target="_blank">{{ value }}</a></p>
+        {% endif %}
+    {% else %}
+        <p><b>{{ key }}:</b> {{ value }}</p>
+    {% endif %}
+{% endfor %}

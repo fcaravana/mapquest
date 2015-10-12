@@ -149,15 +149,19 @@ APP.mapController = function () {
                 $(".glyphicon-eye-close").removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open");
                 
                 var row = $(APP.table).bootstrapTable('getRowByUniqueId', event.id);
-                var html = APP.loadedModules.dataController.markerInformation(row);
                 
-                APP.loadedModules.mapController.loadMap(row);
+                APP.loadedModules.dataController.markerInformation(row).then(function(html) {
+                    
+                    APP.loadedModules.mapController.loadMap(row);
+
+                    $('.modal-title').html(row.company);
+                    $('.modal-body').html(html);
+                    $('#markerModal').modal({ show: true});
+
+                    _map.setCenter(row.latitude, row.longitude);
+
+                });
                 
-                $('.modal-title').html(row.company);
-                $('.modal-body').html(html);
-                $('#markerModal').modal({ show: true});
-                
-                _map.setCenter(row.latitude, row.longitude);
             }
         });
 

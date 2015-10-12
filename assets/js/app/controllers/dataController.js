@@ -4,7 +4,6 @@ APP.dataController = function() {
      * Private properties.
      */
     var _currentDir = APP.loadedModules.helpers.currentDir();
-    var _capitalizeFirstLetter = APP.loadedModules.helpers.capitalizeFirstLetter;
 
     /**
      * Public properties.
@@ -26,17 +25,6 @@ APP.dataController = function() {
      * Table events.
      */
     var _registerEvents = function() {
-
-        $(APP.table).on("expand-row.bs.table", function(event, index, row, detail) {
-            $('.image-link').magnificPopup({
-                type: 'image',
-                closeOnContentClick: true,
-                closeBtnInside: false,
-                fixedContentPos: true,
-                mainClass: 'mfp-no-margins mfp-with-zoom',
-                image: { verticalFit: true }
-            });
-        });
         
         $(document).on("click", ".row", function() {
 
@@ -89,63 +77,39 @@ APP.dataController = function() {
     /**
      * Detail formatter.
      * 
-     * @param {number} index index
      * @param {object} row row
-     * @return {string} html
+     * @return {object} promise promise
      */
-    self.detailFormatter = function(index, row) {
+    self.detailFormatter = function(row) {
 
-        var html = [];
-        var richValue = '';
-
-        $.each(row, function(key, value) {
-
-            richValue = value.toString();
-            if (richValue.indexOf('http') > -1) {
-                if (richValue.indexOf('jpg') > -1 || richValue.indexOf('jpeg') > -1) {
-                    richValue = '<a href="' + value + '" class="image-link"><span class="glyphicon glyphicon-picture"></span></a>';
-                } else {
-                    richValue = '<a href="' + value + '" target="_blank">' + value + '</a>';
-                }
-            }
-
-            html.push('<p><b>' + _capitalizeFirstLetter(key) + ':</b> ' + richValue + '</p>');
+        var promise = new RSVP.Promise(function(resolve) {
+            
+            APP.loadedModules.helpers.getTemplateHtml('tableMoreDetailFormatter').then(function(html) {
+                resolve(swig.render(html, {locals: {row: row}}));
+            });
+            
         });
 
-        return html.join('');
-
+        return promise;
     };
 
     /**
      * Detail formatter.
      * 
      * @param {object} row row
-     * @return {string} html
+     * @return {object} promise promise
      */
     self.markerInformation = function(row) {
-
-        var html = [];
-        var image = '', text = '';
-
-        html.push('<div class="row"><div class="col-md-6 col-xs-6">');
-        $.each(row, function(key, value) {
-
-            text = value.toString();
-            if (text.indexOf('http') > -1) {
-                if (text.indexOf('jpg') > -1 || text.indexOf('jpeg') > -1) {
-                    image = '<div style="background-image: url(\'' + value + '\')" class="image-info" /></div>';
-                } else {
-                    text = '<a href="' + value + '" target="_blank">' + value + '</a>';
-                    html.push('<p><b>' + _capitalizeFirstLetter(key) + ':</b> ' + text + '</p>');
-                }
-            } else {
-                html.push('<p><b>' + _capitalizeFirstLetter(key) + ':</b> ' + text + '</p>');
-            }
-        });
-        html.push('</div><div class="col-md-6 col-xs-6">' + image + '</div></div>');
         
-        return html.join('');
+        var promise = new RSVP.Promise(function(resolve) {
+            
+            APP.loadedModules.helpers.getTemplateHtml('markerInformation').then(function(html) {
+                resolve(swig.render(html, {locals: {row: row}}));
+            });
+            
+        });
 
+        return promise;
     };
 
     /**
@@ -153,19 +117,45 @@ APP.dataController = function() {
      */
     self.clickRow = function() {
 
-        $(APP.table).on("click-row.bs.table", function(event, row, element) {
-
-            $("#table-wrap").hide();
-            $(".glyphicon-eye-close").removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open");
+        $("#table-csv").on("click-row.bs.table", function(event, row, element) {
             
             APP.loadedModules.mapController.loadMap(row);
-            
-            var html = APP.loadedModules.dataController.markerInformation(row);
-            $('.modal-title').html(row.company);
-            $('.modal-body').html(html);
-            $('#markerModal').modal({ show: true});
+
+            self.markerInformation(row).then(function(html) {
                 
-            APP.loadedModules.mapController.setCenter(row.latitude, row.longitude);
+                $('.modal-title').html(row.company);
+                $('.modal-body').html(html);
+                $('#markerModal').modal({ show: true});
+
+                APP.loadedModules.mapController.setCenter(row.latitude, row.longitude);
+                
+            });
+
+        });
+
+    };
+    
+    /**
+     * Click detail.
+     */
+    self.clickDetail = function() {
+
+        $("#table-csv").on("expand-row.bs.table", function(event, index, row, detail) {
+            
+            self.detailFormatter(row).then(function(html) {                
+                
+                detail.html(html);
+                
+                $('.image-link').magnificPopup({
+                    type: 'image',
+                    closeOnContentClick: true,
+                    closeBtnInside: false,
+                    fixedContentPos: true,
+                    mainClass: 'mfp-no-margins mfp-with-zoom',
+                    image: { verticalFit: true }
+                });
+                
+            });
 
         });
 
