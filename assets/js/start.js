@@ -69,13 +69,8 @@ var APP = {
 APP.baseUrl = (APP.baseUrl ? APP.baseUrl : APP.getBase());
 
 basket.require(
-    {url: APP.baseUrl + '/assets/js/bower_components/jquery/dist/jquery.min.js?s=' + APP.serial, skipCache: APP.skipCache},
-    {url: APP.baseUrl + '/assets/js/bower_components/swig/swig.min.js?s=' + APP.serial, skipCache: APP.skipCache},
-    {url: APP.baseUrl + '/assets/js/bower_components/bootstrap/dist/js/bootstrap.min.js?s=' + APP.serial, skipCache: APP.skipCache},
-    {url: APP.baseUrl + '/assets/js/bower_components/bootstrap-table/dist/bootstrap-table.min.js?s=' + APP.serial, skipCache: APP.skipCache},
-    {url: APP.baseUrl + '/assets/js/bower_components/csvjson.js/csvjson.min.js?s=' + APP.serial, skipCache: APP.skipCache},
-    {url: APP.baseUrl + '/assets/js/bower_components/gmaps/gmaps.min.js?s=' + APP.serial, skipCache: APP.skipCache},
-    {url: APP.baseUrl + '/assets/js/bower_components/magnific-popup/dist/jquery.magnific-popup.min.js?s=' + APP.serial, skipCache: APP.skipCache}
+    {url: APP.baseUrl + '/assets/js/libs/swig.min.js?s=' + APP.serial, skipCache: APP.skipCache},
+    {url: APP.baseUrl + '/assets/js/libs/libs.min.js?s=' + APP.serial, skipCache: APP.skipCache}
 ).then(function() {
 
     var templateReady = function() {
