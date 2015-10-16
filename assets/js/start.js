@@ -47,18 +47,17 @@ var APP = {
     
     start: function() {
 
-        APP.loadedModules.helpers = new APP.helpers();
-        APP.loadedModules.dataController = new APP.dataController();
+        var helpers = new APP.helpers();
+        helpers.loadModules(['helpers', 'dataController', 'mapController']);
 
-        APP.loadedModules.dataController.start();
+        APP.dataController.start();           
 
-        APP.loadedModules.dataController.loadData.then(function() {
+        APP.dataController.loadData.then(function() {
 
-            APP.loadedModules.mapController = new APP.mapController();
-            APP.loadedModules.mapController.start();
-
-            APP.loadedModules.dataController.clickDetail();
-            APP.loadedModules.dataController.clickRow();            
+            APP.mapController.start();
+            
+            APP.dataController.clickDetail();
+            APP.dataController.clickRow(); 
 
         }, function(error) {
             alert(error);

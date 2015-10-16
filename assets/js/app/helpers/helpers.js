@@ -56,6 +56,26 @@ APP.helpers = function () {
         return promise;
         
     };
+    
+    /**
+     * Load Modules.
+     * 
+     * @param {array} modules modules to load
+     */
+    self.loadModules = function(modules) {
+        
+        var controller = undefined;
+        var shortcut = undefined;
+        
+        for (i = 0 ; i < modules.length ; i++) {
+            controller = new Function('APP.loadedModules.' + modules[i] + ' = new APP.' + modules[i] + '();');
+            controller();
+            
+            shortcut = new Function('return APP.loadedModules.' + modules[i]);
+            APP[modules[i]] = shortcut();
+        }
+        
+    };
 
     /**
      * Public methods.
