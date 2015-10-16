@@ -55,9 +55,6 @@ var APP = {
         APP.dataController.loadData.then(function() {
 
             APP.mapController.start();
-            
-            APP.dataController.clickDetail();
-            APP.dataController.clickRow(); 
 
         }, function(error) {
             alert(error);

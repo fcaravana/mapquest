@@ -3,7 +3,7 @@ APP.dataController = function() {
     /**
      * Private properties.
      */
-    var _currentDir = APP.loadedModules.helpers.currentDir();
+    var _currentDir = APP.helpers.currentDir();
 
     /**
      * Public properties.
@@ -22,7 +22,7 @@ APP.dataController = function() {
     };
 
     /**
-     * Table events.
+     * Register events.
      */
     var _registerEvents = function() {
         
@@ -35,6 +35,42 @@ APP.dataController = function() {
             }
             
             $("#table-wrap").toggle();
+        });
+        
+        $("#table-csv").on("click-row.bs.table", function(event, row, element) {
+            
+            $("#table-wrap").hide();
+            APP.mapController.loadMap(row);
+
+            self.getRowHtml('markerInformation', row).then(function(html) {
+                
+                $('.modal-title').html(row.company);
+                $('.modal-body').html(html);
+                $('#markerModal').modal({ show: true});
+
+                APP.mapController.setCenter(row.latitude, row.longitude);
+                
+            });
+
+        });
+        
+        $("#table-csv").on("expand-row.bs.table", function(event, index, row, detail) {
+            
+            self.getRowHtml('tableMoreDetailFormatter', row).then(function(html) {                
+                
+                detail.html(html);
+                
+                $('.image-link').magnificPopup({
+                    type: 'image',
+                    closeOnContentClick: true,
+                    closeBtnInside: false,
+                    fixedContentPos: true,
+                    mainClass: 'mfp-no-margins mfp-with-zoom',
+                    image: { verticalFit: true }
+                });
+                
+            });
+
         });
 
     };
@@ -75,91 +111,23 @@ APP.dataController = function() {
     });
 
     /**
-     * Detail formatter.
+     * Get row template html.
      * 
-     * @param {object} row row
+     * @param {string} template html template name
+     * @param {object} row row data
      * @return {object} promise promise
      */
-    self.detailFormatter = function(row) {
-
-        var promise = new RSVP.Promise(function(resolve) {
-            
-            APP.loadedModules.helpers.getTemplateHtml('tableMoreDetailFormatter').then(function(html) {
-                resolve(swig.render(html, {locals: {row: row}}));
-            });
-            
-        });
-
-        return promise;
-    };
-
-    /**
-     * Detail formatter.
-     * 
-     * @param {object} row row
-     * @return {object} promise promise
-     */
-    self.markerInformation = function(row) {
+    self.getRowHtml = function(template, row) {
         
         var promise = new RSVP.Promise(function(resolve) {
             
-            APP.loadedModules.helpers.getTemplateHtml('markerInformation').then(function(html) {
+            APP.helpers.getTemplateHtml(template).then(function(html) {
                 resolve(swig.render(html, {locals: {row: row}}));
             });
             
         });
 
         return promise;
-    };
-
-    /**
-     * Click row.
-     */
-    self.clickRow = function() {
-
-        $("#table-csv").on("click-row.bs.table", function(event, row, element) {
-            
-            $("#table-wrap").hide();
-            APP.loadedModules.mapController.loadMap(row);
-
-            self.markerInformation(row).then(function(html) {
-                
-                $('.modal-title').html(row.company);
-                $('.modal-body').html(html);
-                $('#markerModal').modal({ show: true});
-
-                APP.loadedModules.mapController.setCenter(row.latitude, row.longitude);
-                
-            });
-
-        });
-
-    };
-    
-    /**
-     * Click detail.
-     */
-    self.clickDetail = function() {
-
-        $("#table-csv").on("expand-row.bs.table", function(event, index, row, detail) {
-            
-            self.detailFormatter(row).then(function(html) {                
-                
-                detail.html(html);
-                
-                $('.image-link').magnificPopup({
-                    type: 'image',
-                    closeOnContentClick: true,
-                    closeBtnInside: false,
-                    fixedContentPos: true,
-                    mainClass: 'mfp-no-margins mfp-with-zoom',
-                    image: { verticalFit: true }
-                });
-                
-            });
-
-        });
-
     };
 
     /**

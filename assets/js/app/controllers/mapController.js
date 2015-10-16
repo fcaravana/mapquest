@@ -125,10 +125,10 @@ APP.mapController = function () {
      * 
      * @param {number} id id
      * @param {string} title title
-     * @param {number} lat lat
-     * @param {number} long long
+     * @param {number} latitude latitude
+     * @param {number} longitude longitude
      */
-    var _addMarker = function (id, title, lat, long) {
+    var _addMarker = function (id, title, latitude, longitude) {
 
         _map.addMarker({
             id: id,
@@ -141,27 +141,10 @@ APP.mapController = function () {
                 strokeColor: (id === _activeId ? '#05f24c' : '#346ff7'),
                 strokeOpacity: 1
             },
-            lat: lat,
-            lng: long,
-            click: function (event) {
-                
-                $("#table-wrap").hide();
-                $(".glyphicon-eye-close").removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open");
-                
-                var row = $(APP.table).bootstrapTable('getRowByUniqueId', event.id);
-                
-                APP.loadedModules.dataController.markerInformation(row).then(function(html) {
-                    
-                    APP.loadedModules.mapController.loadMap(row);
-
-                    $('.modal-title').html(row.company);
-                    $('.modal-body').html(html);
-                    $('#markerModal').modal({ show: true});
-
-                    _map.setCenter(row.latitude, row.longitude);
-
-                });
-                
+            lat: latitude,
+            lng: longitude,
+            click: function (event) { 
+                _onClickMarker(event.id); 
             }
         });
 
@@ -171,14 +154,14 @@ APP.mapController = function () {
      * Add overlay.
      * 
      * @param {string} title title
-     * @param {number} lat lat
-     * @param {number} long long
+     * @param {number} latitude latitude
+     * @param {number} longitude longitude
      */
-    var _addOverlay = function (title, lat, long) {
+    var _addOverlay = function (title, latitude, longitude) {
 
         _map.drawOverlay({
-            lat: lat,
-            lng: long,
+            lat: latitude,
+            lng: longitude,
             verticalAlign: 'bottom',
             horizontalAlign: 'right',
             verticalOffset: -7,
@@ -195,6 +178,32 @@ APP.mapController = function () {
 
         _map.removeMarkers();
         _map.removeOverlays();
+
+    };
+    
+    /**
+     * On click marker.
+     * 
+     * @param {number} id marker id
+     */
+    var _onClickMarker = function (id) {
+
+        $("#table-wrap").hide();
+        $(".glyphicon-eye-close").removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open");
+
+        var row = $(APP.table).bootstrapTable('getRowByUniqueId', id);
+
+        APP.dataController.getRowHtml('markerInformation', row).then(function(html) {
+
+            APP.mapController.loadMap(row);
+
+            $('.modal-title').html(row.company);
+            $('.modal-body').html(html);
+            $('#markerModal').modal({ show: true});
+
+            _map.setCenter(row.latitude, row.longitude);
+
+        });
 
     };
 
