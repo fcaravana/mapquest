@@ -4,6 +4,7 @@ var uglify = require('gulp-uglify');
 var debug = require('gulp-debug');
 var gulpFilter = require('gulp-filter');
 var concat = require('gulp-concat');
+var minifyCss = require('gulp-minify-css');
 
 gulp.task('basket-js', function() {
     return gulp.src(['./assets/js/bower_components/basket.js/dist/basket.js'])
@@ -40,8 +41,9 @@ gulp.task('bower-minify-js', function() {
 });
 
 gulp.task('bower-minify-css', function() {
-    return gulp.src(['**/bootstrap.min.css', '**/bootstrap-table.min.css', '**/magnific-popup.css'])
+    return gulp.src(['**/dist/css/bootstrap.css', '**/dist/bootstrap-table.css', '**/dist/magnific-popup.css'])
         .pipe(debug())
+        .pipe(minifyCss())
         .pipe(concat('libs.min.css'))
         .pipe(gulp.dest('./assets/css'));
 });
